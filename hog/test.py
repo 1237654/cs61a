@@ -1,3 +1,3 @@
 from hog import *
-dice = make_test_dice(1, 2, 2, 2, 2, 2, 2, 2)
-max_scoring_num_rolls(dice, trials_count=1000)
+a = free_bacon(54)
+print(a)

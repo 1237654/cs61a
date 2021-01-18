@@ -274,6 +274,20 @@ def announce_highest(who, last_score=0, running_high=0):
     assert who == 0 or who == 1, 'The who argument should indicate a player.'
     # BEGIN PROBLEM 7
     "*** YOUR CODE HERE ***"
+    def comment(score, opponent_score):
+        if who == 0:
+            if score - last_score > running_high:
+                print( str(score - last_score) + " point(s)! The most yet for Player " + str(who))
+                return announce_highest(who, score, score - last_score)
+            else:
+                return announce_highest(who, score, running_high) 
+        else:
+            if opponent_score - last_score > running_high:
+                print( str(opponent_score - last_score) + " point(s)! The most yet for Player " + str(who))
+                return announce_highest(who, opponent_score, opponent_score - last_score)
+            else:
+                return announce_highest(who, opponent_score, running_high)
+    return comment
     # END PROBLEM 7
 
 
@@ -398,9 +412,13 @@ def run_experiments():
 def bacon_strategy(score, opponent_score, cutoff=8, num_rolls=6):
     """This strategy rolls 0 dice if that gives at least CUTOFF points, and
     rolls NUM_ROLLS otherwise.
+    如果掷0所得的分数大于等于cutoff大的话就return0，否则return  num_rolls
     """
     # BEGIN PROBLEM 10
-    return 6  # Replace this statement
+    if take_turn(0, opponent_score) >= cutoff:
+        return 0
+    else:
+        return num_rolls
     # END PROBLEM 10
 
 
@@ -410,7 +428,12 @@ def extra_turn_strategy(score, opponent_score, cutoff=8, num_rolls=6):
     Otherwise, it rolls NUM_ROLLS.
     """
     # BEGIN PROBLEM 11
-    return 6  # Replace this statement
+    sim = free_bacon(opponent_score)
+    if extra_turn(score + sim, opponent_score) == True or sim >= cutoff:
+        return 0
+    else:
+        return num_rolls
+
     # END PROBLEM 11
 
 
